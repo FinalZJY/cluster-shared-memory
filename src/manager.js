@@ -37,6 +37,14 @@ class Manager {
   }
 
   /**
+   * recreate LRU cache
+   * @param options
+   */
+  setLRUOptions(options) {
+    this.__sharedLRUMemory__ = new LRU(options);
+  }
+
+  /**
    * handle the requests from worker processes.
    * @private
    * @param {object} data
@@ -123,7 +131,7 @@ class Manager {
   }
 
   /**
-   * Remove a object from the shared memory.
+   * Remove an object from the shared memory.
    * @param {object} key
    * @param {function?} callback
    */
@@ -141,7 +149,7 @@ class Manager {
   }
 
   /**
-   * Get the Lock of a object.
+   * Get the Lock of an object.
    * @param {object} key
    * @param {function?} callback
    * @returns {*}
@@ -162,7 +170,7 @@ class Manager {
   }
 
   /**
-   * Release the Lock of a object.
+   * Release the Lock of an object.
    * @param {object} key
    * @param {string} lockId
    * @param {function?} callback
@@ -186,7 +194,7 @@ class Manager {
   }
 
   /**
-   * Auto get and release the Lock of a object.
+   * Auto get and release the Lock of an object.
    * @param {object} key
    * @param {function?} func
    * @returns {*}
@@ -219,9 +227,9 @@ class Manager {
   }
 
   /**
-   * Listen a object.
+   * Listen an object.
    * @param {object} key
-   * @param {function?} callback
+   * @param {function} callback
    * @returns {*}
    */
   listen(key, callback) {
@@ -268,7 +276,7 @@ class Manager {
   }
 
   /**
-   * Remove a object from the LRU shared memory.
+   * Remove an object from the LRU shared memory.
    * @param {object} key
    * @param {function?} callback
    */

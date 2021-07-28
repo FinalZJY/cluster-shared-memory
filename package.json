@@ -1,7 +1,7 @@
 {
   "name": "cluster-shared-memory",
   "version": "1.1.0",
-  "description": "Shared memory for Node.js cluster module.",
+  "description": "Shared memory for the Node.js cluster module.",
   "main": "index.js",
   "author": "FinalZJY",
   "license": "MIT",
@@ -17,7 +17,10 @@
     "url": "git+https://github.com/FinalZJY/SharedMemory.git"
   },
   "keywords": [
-    "shared memory"
+    "shared memory",
+    "Node.js",
+    "cluster",
+    "LRU"
   ],
   "dependencies": {
     "lru-cache": "^6.0.0",

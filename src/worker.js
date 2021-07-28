@@ -85,7 +85,7 @@ class Worker {
   }
 
   /**
-   * Get the Lock of a object.
+   * Get the Lock of an object.
    * @param {object} key
    * @param {function?} callback
    * @returns {*}
@@ -102,7 +102,7 @@ class Worker {
   }
 
   /**
-   * Release the Lock of a object.
+   * Release the Lock of an object.
    * @param {object} key
    * @param {string} lockId
    * @param {function?} callback
@@ -120,7 +120,7 @@ class Worker {
   }
 
   /**
-   * Auto get and release the Lock of a object.
+   * Auto get and release the Lock of an object.
    * @param {object} key
    * @param {function?} func
    * @returns {*}
@@ -160,9 +160,9 @@ class Worker {
   }
 
   /**
-   * Listen a object.
+   * Listen an object.
    * @param {object} key
-   * @param {function?} callback
+   * @param {function} callback
    * @returns {*}
    */
   listen(key, callback) {
@@ -207,7 +207,7 @@ class Worker {
   }
 
   /**
-   * Remove a object from the LRU shared memory.
+   * Remove an object from the LRU shared memory.
    * @param {object} key
    * @param {function?} callback
    */
