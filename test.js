@@ -23,10 +23,12 @@ if (cluster.isMaster) {
   const server = http.createServer(async (req, res) => {
     if (req.url === '/') {
       const sharedMemoryController = require('./src/shared-memory');
-      await sharedMemoryController.getLock('requestTimes');
-      const requestTimes = (await sharedMemoryController.get('requestTimes')) + 1;
-      await sharedMemoryController.set('requestTimes', requestTimes);
-      await sharedMemoryController.releaseLock('requestTimes');
+
+      let requestTimes;
+      await sharedMemoryController.mutex('requestTimes', async () => {
+        requestTimes = (await sharedMemoryController.get('requestTimes')) + 1;
+        await sharedMemoryController.set('requestTimes', requestTimes);
+      });
 
       res.writeHead(200);
       res.end(`requestTimes: ${requestTimes}\n`);

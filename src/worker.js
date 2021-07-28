@@ -104,18 +104,34 @@ class Worker {
   /**
    * Release the Lock of a object.
    * @param {object} key
+   * @param {string} lockId
    * @param {function?} callback
    * @returns {*}
    */
-  releaseLock(key, callback) {
+  releaseLock(key, lockId, callback) {
     if (typeof callback === 'function') {
-      this.handle('releaseLock', key, null, callback);
+      this.handle('releaseLock', key, lockId, callback);
     }
     return new Promise((resolve) => {
-      this.handle('releaseLock', key, null, (value) => {
+      this.handle('releaseLock', key, lockId, (value) => {
         resolve(value);
       });
     });
+  }
+
+  /**
+   * Auto get and release the Lock of a object.
+   * @param {object} key
+   * @param {function?} func
+   * @returns {*}
+   */
+  mutex(key, func) {
+    return (async () => {
+      const lockId = await this.getLock(key);
+      const result = await func();
+      await this.releaseLock(key, lockId);
+      return result;
+    })();
   }
 
   /**

@@ -164,20 +164,40 @@ class Manager {
   /**
    * Release the Lock of a object.
    * @param {object} key
+   * @param {string} lockId
    * @param {function?} callback
    * @returns {*}
    */
-  releaseLock(key, callback) {
+  releaseLock(key, lockId, callback) {
     if (typeof callback === 'function') {
-      delete this.__sharedMemory__.locks[key];
-      this.handleLockRequest(key);
+      if (lockId === this.__sharedMemory__.locks[key]) {
+        delete this.__sharedMemory__.locks[key];
+        this.handleLockRequest(key);
+      }
       callback('OK');
     }
     return new Promise((resolve) => {
-      delete this.__sharedMemory__.locks[key];
-      this.handleLockRequest(key);
+      if (lockId === this.__sharedMemory__.locks[key]) {
+        delete this.__sharedMemory__.locks[key];
+        this.handleLockRequest(key);
+      }
       resolve('OK');
     });
+  }
+
+  /**
+   * Auto get and release the Lock of a object.
+   * @param {object} key
+   * @param {function?} func
+   * @returns {*}
+   */
+  mutex(key, func) {
+    return (async () => {
+      const lockId = await this.getLock(key);
+      const result = await func();
+      await this.releaseLock(key, lockId);
+      return result;
+    })();
   }
 
   /**
