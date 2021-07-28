@@ -118,7 +118,7 @@ Auto get and release the Lock of an object.
   It will return a Promise, which the resolved value is the same as func.
 
 ### listen(key, callback)
-Auto get and release the Lock of an object.
+Listen an object.
 
 - **key** {String} The key used to find the object.
 - **callback** {Function} The function to be called after the value 
