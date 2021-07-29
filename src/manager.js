@@ -24,7 +24,9 @@ class Manager {
       listeners: {},
     };
 
-    this.__sharedLRUMemory__ = new LRU({ max: 10000, maxAge: 1000 * 60 * 5 });
+    this.defaultLRUOptions = { max: 10000, maxAge: 1000 * 60 * 5 };
+
+    this.__sharedLRUMemory__ = new LRU(this.defaultLRUOptions);
 
     // Listen the messages from worker processes.
     cluster.on('online', (worker) => {
@@ -41,7 +43,10 @@ class Manager {
    * @param options
    */
   setLRUOptions(options) {
-    this.__sharedLRUMemory__ = new LRU(options);
+    this.__sharedLRUMemory__ = new LRU({
+      ...this.defaultLRUOptions,
+      ...options
+    });
   }
 
   /**

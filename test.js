@@ -5,6 +5,10 @@ const port = Number(process.env.PORT) || 3080;
 if (cluster.isMaster) {
   const setRequestTimesToZero = async () => {
     const sharedMemoryController = require('./src/shared-memory');
+    sharedMemoryController.setLRUOptions({
+      max: 10,
+      maxAge: 1000,
+    })
     await sharedMemoryController.set('requestTimes', 0);
   }
 
