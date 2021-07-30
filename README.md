@@ -1,4 +1,8 @@
 # cluster-shared-memory
+![npm](https://img.shields.io/npm/v/cluster-shared-memory)
+![node-current](https://img.shields.io/node/v/cluster-shared-memory)
+![GitHub repo size](https://img.shields.io/github/repo-size/FinalZJY/cluster-shared-memory)
+
 Shared memory for Node.js applications which use the cluster module.
 
 It provides in-memory storage managed by the master process, and 
@@ -8,9 +12,6 @@ the Node.js cluster applications to share data between processes.
 It supports reading and writing objects in shared memory, mutually 
 exclusive access between processes, listening objects in shared memory, 
 and an LRU cache.
-
-## Prerequisites
-- [Node.js](https://nodejs.org) installed at v14+
 
 ## Usage
 ```javascript
