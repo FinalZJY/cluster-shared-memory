@@ -143,7 +143,7 @@ class Worker {
    * @param {function(data)} [callback] - the callback function
    */
   handle(method, key, value, callback) {
-    const uuid = uuid4(); // 每次通信的uuid
+    const uuid = uuid4(); // communication ID
     process.send({
       isSharedMemoryMessage: true,
       id: cluster.worker.id,
