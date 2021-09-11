@@ -1,8 +1,9 @@
 {
   "name": "cluster-shared-memory",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Shared memory for the Node.js cluster module.",
   "main": "index.js",
+  "types": "index.d.ts",
   "author": "FinalZJY",
   "license": "MIT",
   "engines": {
@@ -28,5 +29,10 @@
   "dependencies": {
     "lru-cache": "^6.0.0",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/lru-cache": "^5.1.1",
+    "@types/node": "^16.9.1",
+    "@types/uuid": "^8.3.1"
   }
 }
