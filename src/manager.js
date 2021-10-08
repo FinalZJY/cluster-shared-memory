@@ -28,6 +28,8 @@ class Manager {
 
     this.__sharedLRUMemory__ = new LRU(this.defaultLRUOptions);
 
+    this.logger = console.error;
+
     // Listen the messages from worker processes.
     cluster.on('online', (worker) => {
       worker.on('message', (data) => {
@@ -57,27 +59,42 @@ class Manager {
    */
   handle(data, target) {
     if (data.method === 'listen') {
-      this.listen(data.key, (value) => {
-        const msg = {
-          isSharedMemoryMessage: true,
-          isNotified: true,
-          id: data.id,
-          uuid: data.uuid,
-          value,
-        };
-        target.send(msg);
-      });
+      const listener = (value) => {
+        if(target.isConnected()) {
+          const msg = {
+            isSharedMemoryMessage: true,
+            isNotified: true,
+            id: data.id, // worker id
+            uuid: data.uuid,
+            value,
+          };
+          target.send(msg, null, (error) => {
+            if(error) {
+              // Usually happens when the worker exit before the data is sent.
+              this.logger(error);
+            }
+          });
+        } else if (target.isDead()) {
+          this.removeListener(data.key, listener);
+        }
+      };
+      this.listen(data.key, listener);
     } else {
       const args = data.value ? [data.key, data.value] : [data.key];
       this[data.method](...args).then((value) => {
         const msg = {
           isSharedMemoryMessage: true,
           isNotified: false,
-          id: data.id,
+          id: data.id, // worker id
           uuid: data.uuid,
           value,
         };
-        target.send(msg);
+        target.send(msg, null, (error) => {
+          if(error) {
+            // Usually happens when the worker exit before the data is sent.
+            this.logger(error);
+          }
+        });
       });
     }
   }
@@ -244,6 +261,19 @@ class Manager {
       this.__sharedMemory__.listeners[key].push(callback);
     } else {
       throw new Error('a listener must have a callback.');
+    }
+  }
+
+  /**
+   * Remove a listener of an object.
+   * @private
+   * @param {object} key
+   * @param {function} listener
+   */
+  removeListener(key, listener) {
+    const index = (this.__sharedMemory__.listeners[key] ?? []).indexOf(listener);
+    if(index >= 0) {
+      this.__sharedMemory__.listeners[key].splice(index, 1);
     }
   }
 

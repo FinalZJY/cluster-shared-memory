@@ -5,6 +5,7 @@ const port = Number(process.env.PORT) || 3080;
 if (cluster.isMaster) {
   const setRequestTimesToZero = async () => {
     const sharedMemoryController = require('./src/shared-memory');
+    sharedMemoryController.logger = (error) => console.error(error.message);
     sharedMemoryController.setLRUOptions({
       max: 10,
       maxAge: 1000,
@@ -42,6 +43,13 @@ if (cluster.isMaster) {
     }
   }).listen(port, hostIp, function () {
     const url = `http://${hostIp}:${port}${baseUrl}`;
-    console.log(`Worker ${cluster.worker.id}: HTTP server up! Visit ${url} to get started`);
+    console.log(`Worker ${cluster.worker.id}(PID:${cluster.worker.process.pid}): HTTP server up! Visit ${url} to get started`);
+
+    const sharedMemoryController = require('./src/shared-memory');
+    if(cluster.worker.id === 1) {
+      sharedMemoryController.listen('requestTimes', requestTimes => {
+        console.log('requestTimes update: ', requestTimes);
+      });
+    }
   });
 }
