@@ -3,7 +3,7 @@
 ![node-current](https://img.shields.io/node/v/cluster-shared-memory)
 ![GitHub repo size](https://img.shields.io/github/repo-size/FinalZJY/cluster-shared-memory)
 
-A cross-process storage acts like shared memory for Node.js applications which use
+Cross-process storage acts like shared memory for Node.js applications which use
 the cluster module.
 
 If you are looking for a tool to share the physical memory, cluster-shared-memory
