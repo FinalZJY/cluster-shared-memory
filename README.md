@@ -3,14 +3,18 @@
 ![node-current](https://img.shields.io/node/v/cluster-shared-memory)
 ![GitHub repo size](https://img.shields.io/github/repo-size/FinalZJY/cluster-shared-memory)
 
-Shared memory for Node.js applications which use the cluster module.
+A cross-process storage acts like shared memory for Node.js applications which use
+the cluster module.
+
+If you are looking for a tool to share the physical memory, cluster-shared-memory
+can not meet your needs. You can only use it to share data between processes.
 
 It provides in-memory storage managed by the master process, and 
 the workers communicate with the master through IPC. It's basically used in 
 the Node.js cluster applications to share data between processes.
 
-It supports reading and writing objects in shared memory, mutually 
-exclusive access between processes, listening objects in shared memory, 
+It supports reading and writing objects in shared memory storage, mutually 
+exclusive access between processes, listening objects in shared memory storage, 
 and an LRU cache.
 
 ## Usage
@@ -55,7 +59,7 @@ Set the options of the LRU cache. Only available on the master process.
 - **returnValue** {void} 
 
 ### set(key, value, [callback])
-Set an object to the shared memory.
+Set an object to the shared memory storage.
 
 - **key** {String} The key used to find the object.
 - **value** {any} The object to set. Note: it must be a serializable object.
@@ -66,7 +70,7 @@ Set an object to the shared memory.
   It will return a Promise if there's no callback function.
 
 ### get(key, [callback])
-Get an object from the shared memory.
+Get an object from the shared memory storage.
 
 - **key** {String} The key used to find the object.
 - **callback** {Function} (optional) The function to be called after
@@ -76,7 +80,7 @@ Get an object from the shared memory.
   It will return a Promise if there's no callback function.
 
 ### remove(key, [callback])
-Remove an object from the shared memory.
+Remove an object from the shared memory storage.
 
 - **key** {String} The key used to find the object.
 - **callback** {Function} (optional) The function to be called after
