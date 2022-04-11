@@ -27,7 +27,7 @@ if (cluster.isMaster) {
     cluster.fork();
   }
 } else {
-  const sharedMemoryController = require('./src/shared-memory');
+  const sharedMemoryController = require('cluster-shared-memory');
   // Note: it must be a serializable object
   const obj = {
     name: 'Tom',
