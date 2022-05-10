@@ -35,6 +35,12 @@ if (cluster.isMaster) {
         await sharedMemoryController.set('requestTimes', requestTimes);
       });
 
+      // the same with
+      // const lockId = await sharedMemoryController.getLock('requestTimes');
+      // requestTimes = (await sharedMemoryController.get('requestTimes')) + 1;
+      // await sharedMemoryController.set('requestTimes', requestTimes);
+      // await sharedMemoryController.releaseLock('requestTimes', lockId);
+
       res.writeHead(200);
       res.end(`requestTimes: ${requestTimes}\n`);
     } else {
