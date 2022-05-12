@@ -203,15 +203,19 @@ class Manager {
       if (lockId === this.__sharedMemory__.locks[key]) {
         delete this.__sharedMemory__.locks[key];
         this.handleLockRequest(key);
+        callback('OK');
+      } else {
+        callback(`Failed. LockId:${lockId} does not match ${key}'s lockId.`);
       }
-      callback('OK');
     }
     return new Promise((resolve) => {
       if (lockId === this.__sharedMemory__.locks[key]) {
         delete this.__sharedMemory__.locks[key];
         this.handleLockRequest(key);
+        resolve('OK');
+      } else {
+        resolve(`Failed. LockId:${lockId} does not match ${key}'s lockId.`);
       }
-      resolve('OK');
     });
   }
 
