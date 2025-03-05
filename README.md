@@ -17,6 +17,11 @@ It supports reading and writing objects in shared memory storage, mutually
 exclusive access between processes, listening objects in shared memory storage, 
 and an LRU cache.
 
+## Install
+```shell
+npm i cluster-shared-memory
+```
+
 ## Usage
 ```javascript
 const cluster = require('cluster');
